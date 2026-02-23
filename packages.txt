@@ -16,3 +16,5 @@ libcairo2
 libgtk-3-0
 libgdk-pixbuf2.0-0
 libx11-xcb1
+libxshmfence1
+libglib2.0-0
