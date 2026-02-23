@@ -3,8 +3,25 @@ import asyncio
 from playwright.async_api import async_playwright
 import os
 import tempfile
+import subprocess
+import sys
 
+# 设置页面配置
 st.set_page_config(page_title="网页转 PDF 工具", layout="wide")
+
+# 自动安装 Playwright 浏览器内核 (适配 Streamlit Cloud)
+@st.cache_resource
+def install_browsers():
+    try:
+        # 检查是否需要安装 (这里简单地每次启动尝试安装，Playwright 会自动跳过已安装的)
+        print("正在检查并安装 Playwright 浏览器内核...")
+        subprocess.run([sys.executable, "-m", "playwright", "install", "chromium"], check=True)
+        print("Playwright 浏览器内核安装完成")
+    except Exception as e:
+        st.error(f"安装浏览器内核失败: {e}")
+
+# 在应用启动时调用安装函数
+install_browsers()
 
 st.title("📄 网页转 PDF 工具")
 st.markdown("输入网址，一键转换为高质量 PDF。")
